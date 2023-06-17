@@ -33,7 +33,7 @@ Leet code graphql URL = https://leetcode.com/graphql
     }
   }
 ```
-Check the `leetcode.js` file to see how the data is fetched by fetch api.
+Check the `leetcode.js` file to see how the data was fetched by fetch api.
 
 **By the way**
 
