@@ -29,34 +29,7 @@ const query = `
     }
   }
 `;
-//Test a menual user
-exports.leet = (req, res) => {
-    fetch('https://leetcode.com/graphql', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Referer': 'https://leetcode.com'
-        }, 
-        body: JSON.stringify({query: query, variables: {username: "faisalshohagprog"}}),
-    
-    })
-    .then(result => result.json())
-    .then(data => {
-      if(data.errors){
-        res.send(data);
-      }else {
-        if(data.errors){
-          res.send(data);
-        }else {
-          res.send(formatData(data.data));
-        }
-      }
-    })
-    .catch(err=>{
-        console.error('Error', err);
-        
-    });
-}
+
 
 // format data 
 const formatData = (data) => {
@@ -92,10 +65,14 @@ exports.leetcode = (req, res) => {
     })
     .then(result => result.json())
     .then(data => {
-     res.send(formatData(data.data));
+      if(data.errors){
+        res.send(data);
+      }else {
+        res.send(formatData(data.data));
+      }
     })
     .catch(err=>{
         console.error('Error', err);
-        throw new Error('Something Went Wrong!');
+        res.send(err);
     });
 }
