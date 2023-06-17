@@ -1,3 +1,4 @@
+//graphql query
 const query = `
   query getUserProfile($username: String!) {
     allQuestionsCount {
@@ -28,10 +29,7 @@ const query = `
     }
   }
 `;
-const variables = {
-    username: "faisalshohagprog"
-  };
-  
+//Test a menual user
 exports.leet = (req, res) => {
     fetch('https://leetcode.com/graphql', {
         method: 'POST',
@@ -39,12 +37,20 @@ exports.leet = (req, res) => {
             'Content-Type': 'application/json',
             'Referer': 'https://leetcode.com'
         }, 
-        body: JSON.stringify({query: query, variables: variables}),
+        body: JSON.stringify({query: query, variables: {username: "faisalshohagprog"}}),
     
     })
     .then(result => result.json())
     .then(data => {
-     res.send(formatData(data.data));
+      if(data.errors){
+        res.send(data);
+      }else {
+        if(data.errors){
+          res.send(data);
+        }else {
+          res.send(formatData(data.data));
+        }
+      }
     })
     .catch(err=>{
         console.error('Error', err);
@@ -52,6 +58,7 @@ exports.leet = (req, res) => {
     });
 }
 
+// format data 
 const formatData = (data) => {
     let sendData =  {
         totalSolved: data.matchedUser.submitStats.acSubmissionNum[0].count,
@@ -71,6 +78,7 @@ const formatData = (data) => {
     return sendData;
 }
 
+//fetching the data
 exports.leetcode = (req, res) => {
     let user = req.params.id;
     fetch('https://leetcode.com/graphql', {
