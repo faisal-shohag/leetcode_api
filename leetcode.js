@@ -66,7 +66,7 @@ const formatData = (data) => {
         ranking: data.matchedUser.profile.ranking,
         contributionPoint: data.matchedUser.contributions.points,
         reputation: data.matchedUser.profile.reputation,
-        submissionCalendar: data.matchedUser.submissionCalendar
+        submissionCalendar: JSON.parse(data.matchedUser.submissionCalendar)
     }
     return sendData;
 }
