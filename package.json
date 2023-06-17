@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "name": "leetcode_api",
+  "version": "1.0.0",
+  "description": "leetcode api",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faisal-shohag/leetcode_api.git"
+  },
+  "keywords": [
+    "leetcode"
+  ],
+  "author": "faisal_shohag",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faisal-shohag/leetcode_api/issues"
+  },
+  "homepage": "https://github.com/faisal-shohag/leetcode_api#readme"
+}
