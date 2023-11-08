@@ -27,6 +27,31 @@ const query = `
         }
       }
     }
+    recentSubmissionList(username: $username) {
+      title
+      titleSlug
+      timestamp
+      statusDisplay
+      lang
+      __typename
+    }
+    matchedUserStats: matchedUser(username: $username) {
+      submitStats: submitStatsGlobal {
+        acSubmissionNum {
+          difficulty
+          count
+          submissions
+          __typename
+        }
+        totalSubmissionNum {
+          difficulty
+          count
+          submissions
+          __typename
+        }
+        __typename
+      }
+    }
   }
 `;
 
@@ -46,7 +71,9 @@ const formatData = (data) => {
         ranking: data.matchedUser.profile.ranking,
         contributionPoint: data.matchedUser.contributions.points,
         reputation: data.matchedUser.profile.reputation,
-        submissionCalendar: JSON.parse(data.matchedUser.submissionCalendar)
+        submissionCalendar: JSON.parse(data.matchedUser.submissionCalendar),
+        recentSubmissions: data.recentSubmissionList,
+        matchedUserStats: data.matchedUser.submitStats
     }
     return sendData;
 }
