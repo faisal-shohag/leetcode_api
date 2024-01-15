@@ -37,7 +37,7 @@ Check the `leetcode.js` file to see how the data was fetched by fetch api.
 
 **By the way**
 
-**API URL** = https://faisal-leetcode-api.cyclic.app/yourLeetcodeUsername <br>
+**API URL** = [https://faisal-leetcode-api.cyclic.app/yourLeetcodeUsername](https://leetcode-api-faisalshohag.vercel.app/) <br>
 Response is like this:
 ```
 {
