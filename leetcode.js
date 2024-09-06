@@ -1,4 +1,4 @@
-//graphql query
+// QraphQL Query
 const query = `
   query getUserProfile($username: String!) {
     allQuestionsCount {
@@ -55,8 +55,7 @@ const query = `
   }
 `;
 
-
-// format data 
+// Format data 
 const formatData = (data) => {
     let sendData =  {
         totalSolved: data.matchedUser.submitStats.acSubmissionNum[0].count,
@@ -78,7 +77,7 @@ const formatData = (data) => {
     return sendData;
 }
 
-//fetching the data
+// Fetching the data
 exports.leetcode = (req, res) => {
     let user = req.params.id;
     fetch('https://leetcode.com/graphql', {
@@ -87,18 +86,14 @@ exports.leetcode = (req, res) => {
             'Content-Type': 'application/json',
             'Referer': 'https://leetcode.com'
         }, 
-        body: JSON.stringify({query: query, variables: {username: user}}),
-    
+        body: JSON.stringify({query: query, variables: {username: user}})
     })
     .then(result => result.json())
     .then(data => {
-      if(data.errors){
-        res.send(data);
-      }else {
-        res.send(formatData(data.data));
-      }
+      if (data.errors) res.send(data);
+      else res.send(formatData(data.data));
     })
-    .catch(err=>{
+    .catch(err => {
         console.error('Error', err);
         res.send(err);
     });
