@@ -8,7 +8,7 @@ app.use(cors({
 
 let leet = require('./leetcode');
 app.get('/', (req, res) => {
-    res.send(`<b>API URL:</b>/<b style="color:crimson;">yourLeetcodeUsername</b>`)
+    res.send(`<p>To access the API, use </p><b>https://leetcode-api-faisalshohag.vercel.app</b>/<b style="color:crimson;">yourLeetcodeUsername</b>`)
 });
 app.get('/:id', leet.leetcode);
 
