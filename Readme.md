@@ -1,5 +1,5 @@
 # LeetCode API
-
+![alt text](https://i.postimg.cc/KzvpYrTf/image.png)
 ## Overview
 
 This project provides a working Node.js API to interact with LeetCode's public GraphQL API, focusing on fetching submission calendars and other user statistics. The API simplifies querying LeetCode's data by providing structured endpoints.
