@@ -1,178 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LeetCode User Stats</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#58a6ff',
-                    },
-                    backgroundImage: {
-                        'gradient': 'linear-gradient(45deg, hsl(240deg 100% 20%) 0%, hsl(281deg 100% 21%) 8%, hsl(304deg 100% 23%) 17%, hsl(319deg 100% 30%) 25%, hsl(329deg 100% 36%) 33%, hsl(336deg 100% 41%) 42%, hsl(346deg 83% 51%) 50%, hsl(3deg 95% 61%) 58%, hsl(17deg 100% 59%) 67%, hsl(30deg 100% 55%) 75%, hsl(40deg 100% 50%) 83%, hsl(48deg 100% 50%) 92%, hsl(55deg 100% 50%) 100%)',
-                    },
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#58a6ff",
+            },
+            backgroundImage: {
+              gradient:
+                "linear-gradient(45deg, hsl(240deg 100% 20%) 0%, hsl(281deg 100% 21%) 8%, hsl(304deg 100% 23%) 17%, hsl(319deg 100% 30%) 25%, hsl(329deg 100% 36%) 33%, hsl(336deg 100% 41%) 42%, hsl(346deg 83% 51%) 50%, hsl(3deg 95% 61%) 58%, hsl(17deg 100% 59%) 67%, hsl(30deg 100% 55%) 75%, hsl(40deg 100% 50%) 83%, hsl(48deg 100% 50%) 92%, hsl(55deg 100% 50%) 100%)",
+            },
+          },
+        },
+      };
     </script>
     <style>
-        .glassmorphism {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .glass-2{
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #ffffff;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .glass-2 {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid #ffffff;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
 
-        .contribution-cell {
-            width: 10px;
-            height: 10px;
-            margin: 2px;
-            border-radius: 2px;
-            transition: all 0.2s ease;
-        }
-        
-        .contribution-cell:hover {
-            transform: scale(1.2);
-        }
-        
-        .level-0 { background-color: #161b22; }
-        .level-1 { background-color: #0e4429; }
-        .level-2 { background-color: #006d32; }
-        .level-3 { background-color: #26a641; }
-        .level-4 { background-color: #39d353; }
+      .contribution-cell {
+        width: 10px;
+        height: 10px;
+        margin: 2px;
+        border-radius: 2px;
+        transition: all 0.2s ease;
+      }
 
+      .contribution-cell:hover {
+        transform: scale(1.2);
+      }
 
-        .error-message {
-            background: rgba(239, 68, 68, 0.569);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            margin: 1rem 0;
-            animation: fadeIn 0.3s ease-in-out;
-        }
+      .level-0 {
+        background-color: #161b22;
+      }
+      .level-1 {
+        background-color: #0e4429;
+      }
+      .level-2 {
+        background-color: #006d32;
+      }
+      .level-3 {
+        background-color: #26a641;
+      }
+      .level-4 {
+        background-color: #39d353;
+      }
 
-        @keyframes fadeIn {
-            from { transform: translateY(-10px); }
-            to { transform: translateY(0); }
+      .error-message {
+        background: rgba(239, 68, 68, 0.569);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 1rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        margin: 1rem 0;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          transform: translateY(-10px);
         }
+        to {
+          transform: translateY(0);
+        }
+      }
     </style>
-</head>
-<body class="bg-gradient text-white min-h-screen">
+  </head>
+  <body class="bg-gradient text-white min-h-screen">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-2xl flex items-center justify-center gap-2 font-bold text-white mb-8 text-center"><img class="h-10 " src="https://upload.wikimedia.org/wikipedia/commons/0/0a/LeetCode_Logo_black_with_text.svg"/> api</h1>
-        <div class="mb-6 flex justify-center">
-            <input type="text" id="username" placeholder="Username" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-0 focus:ring-none placeholder-gray-300">
-            <button onclick="fetchUserStats()" class="glass-2 text-white px-4 py-2 rounded-r-md hover:bg-opacity-90 transition-colors">Okay</button>
+      <h1
+        class="text-2xl flex items-center justify-center gap-2 font-bold text-white mb-8 text-center"
+      >
+        <img
+          class="h-10"
+          src="https://upload.wikimedia.org/wikipedia/commons/0/0a/LeetCode_Logo_black_with_text.svg"
+        />
+        api
+      </h1>
+      <div class="mb-6 flex justify-center">
+        <input
+          type="text"
+          id="username"
+          placeholder="Username"
+          class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-0 focus:ring-none placeholder-gray-300"
+        />
+        <button
+          onclick="fetchUserStats()"
+          class="glass-2 text-white px-4 py-2 rounded-r-md hover:bg-opacity-90 transition-colors"
+        >
+          Okay
+        </button>
+      </div>
+      <div id="errorMessage" class="hidden"></div>
+      <div
+        id="userStats"
+        class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+      ></div>
+      <div id="heatmap" class="mb-8 glassmorphism p-4">
+        <div id="heatmapChart">
+          <div class="text-center font-semibold">
+            LeetCode api with recentSubmissions and submissionCalendar!
+          </div>
         </div>
-        <div id="errorMessage" class="hidden"></div>
-        <div id="userStats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
-        <div id="heatmap" class="mb-8 glassmorphism p-4">
-             
-            <div id="heatmapChart">
-                <div class="text-center font-semibold">
-                    LeetCode api with recentSubmissions and submissionCalendar!
-                </div>
-                     </div>
+      </div>
+      <div id="recentSubmissions" class="glassmorphism p-4">
+        <div class="text-center">
+          https://leetcode-api-faisalshohag.vercel.app/<strong>username</strong>
         </div>
-        <div id="recentSubmissions" class="glassmorphism p-4">
-            <div class="text-center">https://leetcode-api-faisalshohag.vercel.app/<strong>username</strong></div>
-        </div>
-        <div id="loadingSpinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-            <div class="spinner"></div>
-        </div>
-
-
+      </div>
+      <div
+        id="loadingSpinner"
+        class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden"
+      >
+        <div class="spinner"></div>
+      </div>
     </div>
-    <div class="glassmorphism py-3"><a target="_blank" href="https://github.com/faisal-shohag/leetcode_api"> <div class="flex items-center gap-2 font-semibold justify-center">
-        Star at <img class="h-6 w-6" src="https://seeklogo.com/images/G/github-logo-7880D80B8D-seeklogo.com.png"/> 
-       </div></a></div>
+    <div class="glassmorphism py-3">
+      <a target="_blank" href="https://github.com/faisal-shohag/leetcode_api">
+        <div class="flex items-center gap-2 font-semibold justify-center">
+          Star at
+          <img
+            class="h-6 w-6"
+            src="https://seeklogo.com/images/G/github-logo-7880D80B8D-seeklogo.com.png"
+          /></div
+      ></a>
+    </div>
 
     <script>
-        async function fetchUserStats() {
-            const username = document.getElementById('username').value;
-            const errorDiv = document.getElementById('errorMessage');
-            const userStatsDiv = document.getElementById('userStats');
-            const heatmapDiv = document.getElementById('heatmap');
-            const recentSubmissionsDiv = document.getElementById('recentSubmissions');
-            
-            // Reset previous content and errors
-            errorDiv.classList.add('hidden');
-            errorDiv.innerHTML = '';
-            userStatsDiv.innerHTML = '';
-            heatmapDiv.innerHTML = '';
-            recentSubmissionsDiv.innerHTML = '';
 
-            if (!username.trim()) {
-                showError('Please enter a username');
-                return;
-            }
+        <!-- console.log(document.getElementById("heatmapChart")) -->
+      async function fetchUserStats() {
+        const username = document.getElementById("username").value;
+        const errorDiv = document.getElementById("errorMessage");
+        const userStatsDiv = document.getElementById("userStats");
+        const heatmapDiv = document.getElementById("heatmap");
+        const recentSubmissionsDiv =
+          document.getElementById("recentSubmissions");
 
-            document.getElementById('loadingSpinner').classList.remove('hidden');
-            
-            try {
-                const response = await fetch(`https://leetcode-api-faisalshohag.vercel.app/${username}`);
-                const data = await response.json();
+        // Reset previous content and errors
+        errorDiv.classList.add("hidden");
+        errorDiv.innerHTML = "";
+        userStatsDiv.innerHTML = "";
+        heatmapDiv.innerHTML = `<div id="heatmapChart">
+          <div class="text-center font-semibold">
+            LeetCode api with recentSubmissions and submissionCalendar!
+          </div>
+        </div>`;
+        recentSubmissionsDiv.innerHTML = "";
 
-                // Check if the response contains errors
-                if (data.errors && data.errors.length > 0) {
-                    // Check if the error is about user not existing
-                    if (data.errors.some(error => error.message.includes("user does not exist"))) {
-                        showError(`User "${username}" does not exist`);
-                    } else {
-                        showError('An error occurred while fetching user data');
-                    }
-                    return;
-                }
-
-                // If no errors, proceed with displaying the data
-                displayUserStats(data);
-                createHeatmap(data.submissionCalendar);
-                displayRecentSubmissions(data.recentSubmissions);
-            } catch (error) {
-                showError('Failed to fetch user data. Please try again later.');
-                console.error('Error fetching user stats:', error);
-            } finally {
-                document.getElementById('loadingSpinner').classList.add('hidden');
-            }
+        if (!username.trim()) {
+          showError("Please enter a username");
+          return;
         }
 
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.innerHTML = `
+        document.getElementById("loadingSpinner").classList.remove("hidden");
+
+        try {
+          const response = await fetch(
+            `https://leetcode-api-faisalshohag.vercel.app/${username}`
+          );
+          const data = await response.json();
+
+          // Check if the response contains errors
+          if (data.errors && data.errors.length > 0) {
+            // Check if the error is about user not existing
+            if (
+              data.errors.some((error) =>
+                error.message.includes("user does not exist")
+              )
+            ) {
+              showError(`User "${username}" does not exist`);
+            } else {
+              showError("An error occurred while fetching user data");
+            }
+            return;
+          }
+
+          // If no errors, proceed with displaying the data
+          displayUserStats(data);
+          createHeatmap(data.submissionCalendar);
+          displayRecentSubmissions(data.recentSubmissions);
+        } catch (error) {
+            
+          showError("Failed to fetch user data. Please try again later.");
+          console.error("Error fetching user stats:", error);
+        } finally {
+          document.getElementById("loadingSpinner").classList.add("hidden");
+        }
+      }
+
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.innerHTML = `
                 <div class="error-message">
                     <p class="text-white font-semibold">${message}</p>
                 </div>
             `;
-            errorDiv.classList.remove('hidden');
-        }
-        function displayUserStats(data) {
-            // Previous displayUserStats code remains the same
-            const statsHtml = `
+        errorDiv.classList.remove("hidden");
+      }
+      function displayUserStats(data) {
+        // Previous displayUserStats code remains the same
+        const statsHtml = `
                 <div class="glassmorphism p-6 shadow-lg">
                     <h3 class="text-xl font-semibold text-white mb-2">Total Solved</h3>
                     <div class="flex  items-center justify-between">
@@ -210,101 +272,140 @@
                     <p class="text-3xl font-bold">${data.contributionPoint}</p>
                 </div>
             `;
-            document.getElementById('userStats').innerHTML = statsHtml;
+        document.getElementById("userStats").innerHTML = statsHtml;
 
-            createDonutChart('totalSolvedChart', data.totalSolved, data.totalQuestions, '#3B82F6');
-            createDonutChart('easySolvedChart', data.easySolved, data.totalEasy, '#10B981');
-            createDonutChart('mediumSolvedChart', data.mediumSolved, data.totalMedium, '#FBBF24');
-            createDonutChart('hardSolvedChart', data.hardSolved, data.totalHard, '#EF4444');
-        }
+        createDonutChart(
+          "totalSolvedChart",
+          data.totalSolved,
+          data.totalQuestions,
+          "#3B82F6"
+        );
+        createDonutChart(
+          "easySolvedChart",
+          data.easySolved,
+          data.totalEasy,
+          "#10B981"
+        );
+        createDonutChart(
+          "mediumSolvedChart",
+          data.mediumSolved,
+          data.totalMedium,
+          "#FBBF24"
+        );
+        createDonutChart(
+          "hardSolvedChart",
+          data.hardSolved,
+          data.totalHard,
+          "#EF4444"
+        );
+      }
 
-        function createDonutChart(elementId, value, total, color) {
-            const ctx = document.getElementById(elementId).getContext('2d');
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [value, total - value],
-                        backgroundColor: [color, 'rgba(255, 255, 255, 0.2)'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    responsive: false,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            enabled: false
-                        }
-                    }
-                }
-            });
-        }
+      function createDonutChart(elementId, value, total, color) {
+        const ctx = document.getElementById(elementId).getContext("2d");
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            datasets: [
+              {
+                data: [value, total - value],
+                backgroundColor: [color, "rgba(255, 255, 255, 0.2)"],
+                borderWidth: 0,
+              },
+            ],
+          },
+          options: {
+            cutout: "70%",
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          },
+        });
+      }
 
-        function createHeatmap(submissionCalendar) {
-            const heatmapContainer = document.querySelector("#heatmapChart");
-            heatmapContainer.innerHTML = '<h2 class="text-2xl font-bold text-white mb-4">Submission Heatmap</h2>'; // Clear existing content
-        
-            // Create container for the entire heatmap
-            const container = document.createElement('div');
-            container.className = 'flex flex-col gap-2';
-        
-            // Create month labels
-            const monthsContainer = document.createElement('div');
-            monthsContainer.className = 'flex text-xs text-gray-400 mb-1';
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            months.forEach(month => {
-                const monthLabel = document.createElement('div');
-                monthLabel.className = 'flex-1 text-center';
-                monthLabel.textContent = month;
-                monthsContainer.appendChild(monthLabel);
-            });
-            container.appendChild(monthsContainer);
-        
-            // Create grid container
-            const gridContainer = document.createElement('div');
-            gridContainer.className = 'flex gap-2';
-        
-            // Add day labels
-            const dayLabels = document.createElement('div');
-            dayLabels.className = 'flex flex-col gap-8 text-xs text-gray-400 pr-2';
-            ['Mon', 'Wed', 'Fri'].forEach(day => {
-                const dayLabel = document.createElement('div');
-                dayLabel.textContent = day;
-                dayLabels.appendChild(dayLabel);
-            });
-            gridContainer.appendChild(dayLabels);
-        
-            // Process and create contribution grid
-            const { weeks } = processCalendarData(submissionCalendar);
-            const contributionGrid = document.createElement('div');
-            contributionGrid.className = 'flex gap-1';
-        
-            weeks.forEach(week => {
-                const weekContainer = document.createElement('div');
-                weekContainer.className = 'flex flex-col gap-1';
-        
-                week.forEach(({ date, count }) => {
-                    const cell = document.createElement('div');
-                    cell.className = `contribution-cell level-${getContributionLevel(count)}`;
-                    cell.title = `${date}: ${count} submissions`;
-                    weekContainer.appendChild(cell);
-                });
-        
-                contributionGrid.appendChild(weekContainer);
-            });
-        
-            gridContainer.appendChild(contributionGrid);
-            container.appendChild(gridContainer);
-        
-            // Add legend
-            const legendContainer = document.createElement('div');
-            legendContainer.className = 'flex items-center gap-2 text-xs text-gray-400 mt-4';
-            legendContainer.innerHTML = `
+      function createHeatmap(submissionCalendar) {
+        const heatmapContainer = document.getElementById("heatmapChart");
+        heatmapContainer.innerHTML =
+          '<h2 class="text-2xl font-bold text-white mb-4">Submission Heatmap</h2>'; // Clear existing content
+
+        // Create container for the entire heatmap
+        const container = document.createElement("div");
+        container.className = "flex flex-col gap-2";
+
+        // Create month labels
+        const monthsContainer = document.createElement("div");
+        monthsContainer.className = "flex text-xs text-gray-400 mb-1";
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        months.forEach((month) => {
+          const monthLabel = document.createElement("div");
+          monthLabel.className = "flex-1 text-center";
+          monthLabel.textContent = month;
+          monthsContainer.appendChild(monthLabel);
+        });
+        container.appendChild(monthsContainer);
+
+        // Create grid container
+        const gridContainer = document.createElement("div");
+        gridContainer.className = "flex gap-2";
+
+        // Add day labels
+        const dayLabels = document.createElement("div");
+        dayLabels.className = "flex flex-col gap-8 text-xs text-gray-400 pr-2";
+        ["Mon", "Wed", "Fri"].forEach((day) => {
+          const dayLabel = document.createElement("div");
+          dayLabel.textContent = day;
+          dayLabels.appendChild(dayLabel);
+        });
+        gridContainer.appendChild(dayLabels);
+
+        // Process and create contribution grid
+        const { weeks } = processCalendarData(submissionCalendar);
+        const contributionGrid = document.createElement("div");
+        contributionGrid.className = "flex gap-1";
+
+        weeks.forEach((week) => {
+          const weekContainer = document.createElement("div");
+          weekContainer.className = "flex flex-col gap-1";
+
+          week.forEach(({ date, count }) => {
+            const cell = document.createElement("div");
+            cell.className = `contribution-cell level-${getContributionLevel(
+              count
+            )}`;
+            cell.title = `${date}: ${count} submissions`;
+            weekContainer.appendChild(cell);
+          });
+
+          contributionGrid.appendChild(weekContainer);
+        });
+
+        gridContainer.appendChild(contributionGrid);
+        container.appendChild(gridContainer);
+
+        // Add legend
+        const legendContainer = document.createElement("div");
+        legendContainer.className =
+          "flex items-center gap-2 text-xs text-gray-400 mt-4";
+        legendContainer.innerHTML = `
                 <span>Less</span>
                 <div class="flex gap-1">
                     <div class="contribution-cell level-0"></div>
@@ -315,65 +416,71 @@
                 </div>
                 <span>More</span>
             `;
-            container.appendChild(legendContainer);
-        
-            heatmapContainer.appendChild(container);
+        container.appendChild(legendContainer);
+
+        heatmapContainer.appendChild(container);
+      }
+
+      function processCalendarData(submissionCalendar) {
+        const weeks = [];
+        let currentWeek = [];
+
+        // Convert timestamps to date objects and sort them
+        const dates = Object.keys(submissionCalendar)
+          .map((timestamp) => ({
+            date: new Date(timestamp * 1000),
+            count: submissionCalendar[timestamp],
+          }))
+          .sort((a, b) => a.date - b.date);
+
+        // Fill in missing dates with zero contributions
+        const startDate = dates[0].date;
+        const endDate = dates[dates.length - 1].date;
+        const dateMap = new Map(
+          dates.map((d) => [d.date.toISOString().split("T")[0], d.count])
+        );
+
+        for (
+          let d = new Date(startDate);
+          d <= endDate;
+          d.setDate(d.getDate() + 1)
+        ) {
+          const dateStr = d.toISOString().split("T")[0];
+          const count = dateMap.get(dateStr) || 0;
+          const dayOfWeek = d.getDay();
+
+          if (dayOfWeek === 0 && currentWeek.length > 0) {
+            weeks.push(currentWeek);
+            currentWeek = [];
+          }
+
+          currentWeek.push({
+            date: dateStr,
+            count: count,
+          });
+
+          if (currentWeek.length === 7) {
+            weeks.push(currentWeek);
+            currentWeek = [];
+          }
         }
-        
-        function processCalendarData(submissionCalendar) {
-            const weeks = [];
-            let currentWeek = [];
-            
-            // Convert timestamps to date objects and sort them
-            const dates = Object.keys(submissionCalendar)
-                .map(timestamp => ({
-                    date: new Date(timestamp * 1000),
-                    count: submissionCalendar[timestamp]
-                }))
-                .sort((a, b) => a.date - b.date);
-        
-            // Fill in missing dates with zero contributions
-            const startDate = dates[0].date;
-            const endDate = dates[dates.length - 1].date;
-            const dateMap = new Map(dates.map(d => [d.date.toISOString().split('T')[0], d.count]));
-        
-            for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-                const dateStr = d.toISOString().split('T')[0];
-                const count = dateMap.get(dateStr) || 0;
-                const dayOfWeek = d.getDay();
-        
-                if (dayOfWeek === 0 && currentWeek.length > 0) {
-                    weeks.push(currentWeek);
-                    currentWeek = [];
-                }
-        
-                currentWeek.push({
-                    date: dateStr,
-                    count: count
-                });
-        
-                if (currentWeek.length === 7) {
-                    weeks.push(currentWeek);
-                    currentWeek = [];
-                }
-            }
-        
-            if (currentWeek.length > 0) {
-                weeks.push(currentWeek);
-            }
-        
-            return { weeks };
+
+        if (currentWeek.length > 0) {
+          weeks.push(currentWeek);
         }
-        
-        function getContributionLevel(count) {
-            if (count === 0) return 0;
-            if (count <= 3) return 1;
-            if (count <= 6) return 2;
-            if (count <= 9) return 3;
-            return 4;
-        }
-        function displayRecentSubmissions(submissions) {
-            let tableHtml = `
+
+        return { weeks };
+      }
+
+      function getContributionLevel(count) {
+        if (count === 0) return 0;
+        if (count <= 3) return 1;
+        if (count <= 6) return 2;
+        if (count <= 9) return 3;
+        return 4;
+      }
+      function displayRecentSubmissions(submissions) {
+        let tableHtml = `
                 <h2 class="text-2xl font-bold text-white mb-4">Recent Submissions</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full rounded-lg overflow-hidden">
@@ -388,21 +495,29 @@
                         <tbody>
             `;
 
-            submissions.forEach(sub => {
-                const date = new Date(sub.timestamp * 1000).toLocaleString();
-                tableHtml += `
+        submissions.forEach((sub) => {
+          const date = new Date(sub.timestamp * 1000).toLocaleString();
+          tableHtml += `
                     <tr class="border-t border-white border-opacity-10">
-                        <td class="px-4 py-2 underline"><a target="_blank" href="https://leetcode.com/problems/${sub.titleSlug}" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-100">${sub.title}</a></td>
-                        <td class="px-4 py-2 font-bold ${sub.statusDisplay == "Accepted" ? "text-green-400" : "text-red-400"}">${sub.statusDisplay}</td>
+                        <td class="px-4 py-2 underline"><a target="_blank" href="https://leetcode.com/problems/${
+                          sub.titleSlug
+                        }" target="_blank" rel="noopener noreferrer" class="text-blue-300 hover:text-blue-100">${
+            sub.title
+          }</a></td>
+                        <td class="px-4 py-2 font-bold ${
+                          sub.statusDisplay == "Accepted"
+                            ? "text-green-400"
+                            : "text-red-400"
+                        }">${sub.statusDisplay}</td>
                         <td class="px-4 py-2">${sub.lang}</td>
                         <td class="px-4 py-2">${date}</td>
                     </tr>
                 `;
-            });
+        });
 
-            tableHtml += '</tbody></table></div>';
-            document.getElementById('recentSubmissions').innerHTML = tableHtml;
-        }
+        tableHtml += "</tbody></table></div>";
+        document.getElementById("recentSubmissions").innerHTML = tableHtml;
+      }
     </script>
-</body>
+  </body>
 </html>
