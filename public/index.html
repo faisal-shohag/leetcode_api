@@ -64,6 +64,22 @@
         .level-2 { background-color: #006d32; }
         .level-3 { background-color: #26a641; }
         .level-4 { background-color: #39d353; }
+
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.569);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin: 1rem 0;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { transform: translateY(-10px); }
+            to { transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-gradient text-white min-h-screen">
@@ -73,13 +89,18 @@
             <input type="text" id="username" placeholder="Username" class="bg-white bg-opacity-20 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-0 focus:ring-none placeholder-gray-300">
             <button onclick="fetchUserStats()" class="glass-2 text-white px-4 py-2 rounded-r-md hover:bg-opacity-90 transition-colors">Okay</button>
         </div>
+        <div id="errorMessage" class="hidden"></div>
         <div id="userStats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"></div>
         <div id="heatmap" class="mb-8 glassmorphism p-4">
              
-            <div id="heatmapChart"></div>
+            <div id="heatmapChart">
+                <div class="text-center font-semibold">
+                    LeetCode api with recentSubmissions and submissionCalendar!
+                </div>
+                     </div>
         </div>
         <div id="recentSubmissions" class="glassmorphism p-4">
-          
+            <div class="text-center">https://leetcode-api-faisalshohag.vercel.app/<strong>username</strong></div>
         </div>
         <div id="loadingSpinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
             <div class="spinner"></div>
@@ -94,20 +115,61 @@
     <script>
         async function fetchUserStats() {
             const username = document.getElementById('username').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const userStatsDiv = document.getElementById('userStats');
+            const heatmapDiv = document.getElementById('heatmap');
+            const recentSubmissionsDiv = document.getElementById('recentSubmissions');
+            
+            // Reset previous content and errors
+            errorDiv.classList.add('hidden');
+            errorDiv.innerHTML = '';
+            userStatsDiv.innerHTML = '';
+            heatmapDiv.innerHTML = '';
+            recentSubmissionsDiv.innerHTML = '';
+
+            if (!username.trim()) {
+                showError('Please enter a username');
+                return;
+            }
+
             document.getElementById('loadingSpinner').classList.remove('hidden');
+            
             try {
                 const response = await fetch(`https://leetcode-api-faisalshohag.vercel.app/${username}`);
                 const data = await response.json();
+
+                // Check if the response contains errors
+                if (data.errors && data.errors.length > 0) {
+                    // Check if the error is about user not existing
+                    if (data.errors.some(error => error.message.includes("user does not exist"))) {
+                        showError(`User "${username}" does not exist`);
+                    } else {
+                        showError('An error occurred while fetching user data');
+                    }
+                    return;
+                }
+
+                // If no errors, proceed with displaying the data
                 displayUserStats(data);
                 createHeatmap(data.submissionCalendar);
                 displayRecentSubmissions(data.recentSubmissions);
             } catch (error) {
+                showError('Failed to fetch user data. Please try again later.');
                 console.error('Error fetching user stats:', error);
             } finally {
                 document.getElementById('loadingSpinner').classList.add('hidden');
             }
         }
 
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.innerHTML = `
+                <div class="error-message">
+                    <p class="text-white font-semibold">${message}</p>
+                </div>
+            `;
+            errorDiv.classList.remove('hidden');
+        }
         function displayUserStats(data) {
             // Previous displayUserStats code remains the same
             const statsHtml = `
