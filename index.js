@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express();
 const cors = require('cors')
+const path = require('path');
+app.use(express.static('public'));
 
 app.use(cors({
     origin: '*'
@@ -8,7 +10,7 @@ app.use(cors({
 
 let leet = require('./leetcode');
 app.get('/', (req, res) => {
-    res.send(`<b>API URL:</b>/<b style="color:crimson;">yourLeetcodeUsername</b>`)
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 app.get('/:id', leet.leetcode);
 
